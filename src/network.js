@@ -211,14 +211,20 @@ const handleTurnUpdate = (data) => {
         ruleJustExpired: data.ruleJustExpired,
         userId: data.userId,
         onRuleSelect: async (chosenIndex) => {
-    const result = await apiPost('/api/turns', {
-        clientSecret: _clientSecret,
-        userId: getUserId(),
-        action: 'SELECT_RULE',
-        payload: { chosenIndex },
-    	});
+    console.log("1. RULE CALLBACK STARTED", chosenIndex);
 
-   		console.log("SELECT_RULE RESPONSE:", result);
-		},
+    try {
+        const result = await apiPost('/api/turns', {
+            clientSecret: _clientSecret,
+            userId: getUserId(),
+            action: 'SELECT_RULE',
+            payload: { chosenIndex },
+        });
+
+        console.log("2. SELECT_RULE RESPONSE:", result);
+    } catch (error) {
+        console.error("3. SELECT_RULE FAILED:", error);
+    }
+},
     });
 };
