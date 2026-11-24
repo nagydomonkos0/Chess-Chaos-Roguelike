@@ -42,13 +42,10 @@ function initializePusher() {
 	
 	pusherChannel = pusherClient.subscribe(CHANNEL_NAME);
 	
-	pusherChannel.bind(EVENT_TYPE_BOARD_UPDATE, (data) => {
-        handleBoardUpdate(data);
-	});
-
 	pusherChannel.bind(EVENT_TYPE_TURN_UPDATE, (data) => {
-        handleTurnUpdate(data);
-	});
+    console.log("TURN EVENT RECEIVED FROM PUSHER:", data);
+    handleTurnUpdate(data);
+});
 	
 	pusherClient.connection.bind('connected', () => {
         const headerText = document.getElementById("pusher-status");
