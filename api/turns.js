@@ -224,6 +224,7 @@ async function incrementTurn(currentTurn, userId) {
     );
     await redis.hset(REDIS_TURNS_CURRENT, stringifiedState);
     await pusher.trigger(CHANNEL_NAME, EVENT_TYPE_TURN_UPDATE, {newTurn, userId, ruleJustExpired});
+    console.log("SERVER SENT TURN EVENT:", newTurn);
 }
 
 async function handleRuleSelection(newTurn, userId, payload) {
@@ -246,6 +247,7 @@ async function handleRuleSelection(newTurn, userId, payload) {
     const CHANNEL_NAME = 'chess-events';
     const EVENT_TYPE_TURN_UPDATE = 'turn-event';
     await pusher.trigger(CHANNEL_NAME, EVENT_TYPE_TURN_UPDATE, {newTurn, userId});
+    console.log("SERVER SENT TURN EVENT:", newTurn);
     console.log(`Triggered Pusher event for Channel:${CHANNEL_NAME} and EventType:${EVENT_TYPE_TURN_UPDATE}`);
 
     // Get the current state of board and turn
