@@ -185,7 +185,7 @@ const syncBoardWithServer = (newState) => {
 // =============================================================================
 
 const handleTurnUpdate = (data) => {
-    console.log("We got a turn update from the server with this info:", data.newTurn);
+    console.log("FULL PUSHER TURN EVENT:", data);
     const newTurnState = data.newTurn;
 
     // Update turn state
