@@ -149,6 +149,10 @@ async function resetTurns() {
     };
     console.log("Here's the state we're saving to the DB!", newTurn);
 
+    const stringifiedState = Object.fromEntries(
+        Object.entries(newTurn).map(([id, data]) => [id, JSON.stringify(data)])
+    );
+    
     await redis.hset(REDIS_TURNS_CURRENT, stringifiedState);
 
     // Trigger Pusher event to tell all clients that new rule choices are live
@@ -161,9 +165,6 @@ async function resetTurns() {
     // Reminder: Redis values must all be strings, not raw JSON, so we stringify every value here
     // Note: we do NOT delete the turn history here! That way you can "Undo Turn" to undo the board reset.
         // This is strictly as a failsafe in case someone accidentally resets the board
-    const stringifiedState = Object.fromEntries(
-        Object.entries(newTurn).map(([id, data]) => [id, JSON.stringify(data)])
-    );
 }
 
 async function incrementTurn(currentTurn, userId) {
