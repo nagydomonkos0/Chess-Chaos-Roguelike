@@ -244,10 +244,6 @@ async function handleRuleSelection(newTurn, userId, payload) {
     newTurn.justSelectedRule = true;
 
     // Trigger Pusher event so that clients update with the new rules
-    const CHANNEL_NAME = 'chess-events';
-    const EVENT_TYPE_TURN_UPDATE = 'turn-event';
-    await pusher.trigger(CHANNEL_NAME, EVENT_TYPE_TURN_UPDATE, {newTurn, userId});
-    console.log("SERVER SENT TURN EVENT:", newTurn);
     console.log(`Triggered Pusher event for Channel:${CHANNEL_NAME} and EventType:${EVENT_TYPE_TURN_UPDATE}`);
 
     // Get the current state of board and turn
@@ -274,5 +270,16 @@ async function handleRuleSelection(newTurn, userId, payload) {
     }
     pipeline.hset(REDIS_TURNS_CURRENT, stringifiedState);
     await pipeline.exec();
+    // Broadcast after saving the updated state
+const CHANNEL_NAME = 'chess-events';
+const EVENT_TYPE_TURN_UPDATE = 'turn-event';
+
+await pusher.trigger(
+    CHANNEL_NAME,
+    EVENT_TYPE_TURN_UPDATE,
+    { newTurn, userId }
+);
+
+console.log("SERVER SENT TURN EVENT:", newTurn);
 }
 
