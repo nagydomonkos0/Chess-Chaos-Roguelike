@@ -47,7 +47,7 @@ const ZOOM_SCROLL_MULTIPLIER = 0.7;
 // AUTHENTICATION
 // =============================================================================
 
-let clientSecret = '111';
+let clientSecret = 'alma';
 
 // =============================================================================
 // DOM REFERENCES
