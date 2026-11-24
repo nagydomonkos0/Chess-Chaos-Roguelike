@@ -186,8 +186,13 @@ const syncBoardWithServer = (newState) => {
 
 const handleTurnUpdate = (data) => {
     console.log("FULL PUSHER TURN EVENT:", data);
-    const newTurnState = data.newTurn;
 
+    const newTurnState = data?.newTurn;
+
+    if (!newTurnState || typeof newTurnState !== 'object') {
+        console.error("Turn update is missing newTurn:", data);
+        return;
+    }
     // Update turn state
     turns.currentTurn = newTurnState.currentTurn;
     turns.currentRules = newTurnState.currentRules;
