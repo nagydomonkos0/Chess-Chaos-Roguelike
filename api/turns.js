@@ -213,7 +213,7 @@ async function incrementTurn(currentTurn, userId) {
     // Trigger Pusher event to tell all clients that new rule choices are live
     const CHANNEL_NAME = 'chess-events';
     const EVENT_TYPE_TURN_UPDATE = 'turn-event';
-    await pusher.trigger(CHANNEL_NAME, EVENT_TYPE_TURN_UPDATE, {newTurn, userId, ruleJustExpired});
+
     console.log(`Triggered Pusher event for Channel:${CHANNEL_NAME} and EventType:${EVENT_TYPE_TURN_UPDATE}`);
 
     // Finally, write the new turn state data back to the DB
@@ -222,6 +222,7 @@ async function incrementTurn(currentTurn, userId) {
         Object.entries(newTurn).map(([id, data]) => [id, JSON.stringify(data)])
     );
     await redis.hset(REDIS_TURNS_CURRENT, stringifiedState);
+    await pusher.trigger(CHANNEL_NAME, EVENT_TYPE_TURN_UPDATE, {newTurn, userId, ruleJustExpired});
 }
 
 async function handleRuleSelection(newTurn, userId, payload) {
