@@ -149,6 +149,8 @@ async function resetTurns() {
     };
     console.log("Here's the state we're saving to the DB!", newTurn);
 
+    await redis.hset(REDIS_TURNS_CURRENT, stringifiedState);
+
     // Trigger Pusher event to tell all clients that new rule choices are live
     const CHANNEL_NAME = 'chess-events';
     const EVENT_TYPE_TURN_UPDATE = 'turn-event';
@@ -162,7 +164,6 @@ async function resetTurns() {
     const stringifiedState = Object.fromEntries(
         Object.entries(newTurn).map(([id, data]) => [id, JSON.stringify(data)])
     );
-    await redis.hset(REDIS_TURNS_CURRENT, stringifiedState);
 }
 
 async function incrementTurn(currentTurn, userId) {
