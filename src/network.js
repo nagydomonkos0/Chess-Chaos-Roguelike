@@ -86,6 +86,7 @@ export const pullServerTurnState = async () => {
         console.log("Failed to pull turn state from the server");
         return;
     }
+	console.log("INITIAL TURN STATE FROM API:", result.turnState);
     handleTurnUpdate(result.turnState);
 }
 
