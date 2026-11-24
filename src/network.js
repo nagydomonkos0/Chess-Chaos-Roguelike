@@ -195,9 +195,13 @@ const handleTurnUpdate = (data) => {
         return;
     }
     // Update turn state
-    turns.currentTurn = newTurnState.currentTurn;
-    turns.currentRules = newTurnState.currentRules;
-    turns.newRuleChoices = newTurnState.newRuleChoices;
+	console.log("RENDER TURN UPDATE CALLED");
+console.log("NEW TURN STATE:", newTurnState);
+console.log("GLOBAL TURNS:", {
+    currentTurn: turns.currentTurn,
+    currentRules: turns.currentRules,
+    newRuleChoices: turns.newRuleChoices
+});
 
     const playerChanged = turns.currentPlayer !== newTurnState.currentPlayer;
     if (playerChanged) {
